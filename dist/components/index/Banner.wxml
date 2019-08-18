@@ -1,0 +1,8 @@
+<block wx:if="{{$taroCompReady}}">
+    <view class="at-row at-row__justify--between container">
+        <view class="at-col at-col-3 title">{{title}}</view>
+        <block wx:if="{{more}}">
+            <view class="at-col at-col-2">more</view>
+        </block>
+    </view>
+</block>

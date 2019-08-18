@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "card": "../../components/index/Card",
+    "banner": "../../components/index/Banner",
+    "card-list": "../../components/index/CardList"
+  },
+  "navigationBarTitleText": "首页"
+}

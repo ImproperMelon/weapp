@@ -1,0 +1,12 @@
+<block wx:if="{{$taroCompReady}}">
+    <view class="container" bindtap="handleCardClicked" data-e-tap-so="this">
+        <image class="pic" mode="scaleToFill" src="{{passage.picSrc}}"></image>
+        <view class="info">
+            <view class="title">{{passage.title}}</view>
+            <block wx:if="{{!type}}">
+                <view class="details"><text class="owner">{{passage.owner}} </text><text class="tags">{{anonymousState__temp}}</text>
+                </view>
+            </block>
+        </view>
+    </view>
+</block>

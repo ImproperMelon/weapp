@@ -1,0 +1,43 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/bookDetail/index",
+    "pages/bookShelter/index",
+    "pages/bookSorted/index",
+    "pages/about/index",
+    "pages/article/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "编程学习空间",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "./assets/images/tabIndexOff.png",
+        "selectedIconPath": "./assets/images/tabIndexOn.png"
+      },
+      {
+        "pagePath": "pages/bookShelter/index",
+        "text": "书架",
+        "iconPath": "./assets/images/tabBooksOff.png",
+        "selectedIconPath": "./assets/images/tabBooksOn.png"
+      },
+      {
+        "pagePath": "pages/about/index",
+        "text": "关于",
+        "iconPath": "./assets/images/tabAboutOff.png",
+        "selectedIconPath": "./assets/images/tabAboutOn.png"
+      }
+    ],
+    "color": "#8a8a8a",
+    "selectedColor": "#2d8cf0",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white"
+  },
+  "sitemapLocation": "sitemap.json"
+}
