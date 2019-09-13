@@ -1,49 +1,42 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Image, Text} from '@tarojs/components'
+import { View, Text, Image } from '@tarojs/components'
 import PropTypes from 'prop-types'
 
 import './Card.scss'
 
-export default class Card extends Component {
+class Card extends Component {
+  constructor(props) {
+    super(props)
+  }
+  
   static propTypes = {
-    passage: PropTypes.object,
-    //decide whether it has detailed info
-    type: PropTypes.bool
+    passage: PropTypes.object
   }
 
   static defaultProps = {
     passage: {
-      tags:[]
-    },
-    type: false
+      cover: 'https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture'
+    }
   }
 
-  handleCardClicked (passage) {
-    Taro.navigateTo({
-      url: 'pages/article?id=' + passage.id
-    })
+  cardClicked(passageId) {
+    console.log(this.props.passage.passageId)
   }
 
-  render () {
-    const { passage, type } = this.props
-    return (
-      <View className='container' onClick = { this.handleCardClicked.bind(this)}>
+  render() {
+    // console.log(this.props.passage.cover)
+    return(
+      <View className='container' onClick = {this.cardClicked.bind(this, this.props.passage.passageId)}>
+        <Text className='title'>{this.props.passage.title}</Text>
         <Image
-          className='pic'
+          className='cover'
           mode='scaleToFill'
-          src={ passage.picSrc }
-        />
-        <View className='info'>
-          <View className='title'>{ passage.title }</View>
-          {
-            !type &&
-            <View className='details'>
-              <Text className='owner'>{ passage.owner } </Text>
-              <Text className='tags'>{ passage.tags.join('/')}</Text>
-            </View>
-          }
-        </View>
+          src= {this.props.passage.cover}
+        ></Image>
+        <Text className='date'>{this.props.passage.modifiedTime}</Text>
       </View>
     )
   }
 }
+
+export default Card

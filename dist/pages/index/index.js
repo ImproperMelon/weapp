@@ -43,8 +43,8 @@ var Index = (_dec = (0, _index3.connect)(function (_ref) {
       dispatch((0, _counter.asyncAdd)());
     }
   };
-}), _dec(_class = (_temp2 = _class2 = function (_BaseComponent) {
-  _inherits(Index, _BaseComponent);
+}), _dec(_class = (_temp2 = _class2 = function (_Taro$Component) {
+  _inherits(Index, _Taro$Component);
 
   function Index() {
     var _ref2;
@@ -57,9 +57,9 @@ var Index = (_dec = (0, _index3.connect)(function (_ref) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref2 = Index.__proto__ || Object.getPrototypeOf(Index)).call.apply(_ref2, [this].concat(args))), _this), _this.$usedState = ["$compid__55", "$compid__56", "$compid__57", "$compid__58", "$compid__59", "passageList", "titleList"], _this.config = {
-      navigationBarTitleText: '首页'
-    }, _this.customComponents = ["Card", "Banner", "CardList"], _temp), _possibleConstructorReturn(_this, _ret);
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref2 = Index.__proto__ || Object.getPrototypeOf(Index)).call.apply(_ref2, [this].concat(args))), _this), _this.$usedState = ["anonymousState__temp", "loopArray26", "$compid__101", "$compid__102", "$compid__103", "currentView", "latestPassagesInfo"], _this.config = {
+      navigationBarTitleText: '学习空间'
+    }, _this.customComponents = ["AtTabs", "AtTabsPane", "Card"], _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(Index, [{
@@ -67,8 +67,8 @@ var Index = (_dec = (0, _index3.connect)(function (_ref) {
     value: function _constructor(props) {
       _get(Index.prototype.__proto__ || Object.getPrototypeOf(Index.prototype), "_constructor", this).call(this, props);
       this.state = {
-        passageList: [],
-        titleList: []
+        currentView: 0, // index that AtTabs and AtTabsPane need to manage to change pane item. 
+        latestPassagesInfo: [] // passages list that needs to be presented and contains passages infomation.
       };
       this.$$refs = [];
     }
@@ -80,33 +80,56 @@ var Index = (_dec = (0, _index3.connect)(function (_ref) {
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.loadPassages();
-      this.loadTitles();
+      this.fetchTopicPassgaesInfo('latestPassages'); // first request to get the latest passages list.
     }
   }, {
-    key: "loadPassages",
-    value: function loadPassages() {
+    key: "onPullDownRefresh",
+    value: function onPullDownRefresh() {
+      this.fetchTopicPassgaesInfo('latestPassages'); // refresh passage list when users pulls the window down.
+    }
+  }, {
+    key: "fetchTopicPassgaesInfo",
+    value: function fetchTopicPassgaesInfo(passagesType) {
       var _this2 = this;
 
+      // passagesType needed in case that a new kind of criterior standard is needed.
+      // get different kind of passages list when defferent passageType is transfered in.
+      var url = 'http://rap2api.taobao.org/app/mock/228736/api/' + passagesType;
       _index2.default.request({
-        url: 'http://rap2api.taobao.org/app/mock/227923/api/home/passageList'
-      }).then(function (response) {
-        return response.data;
+        url: url
+      }).then(function (res) {
+        return res.data;
       }).then(function (data) {
-        _this2.setState({ passageList: data.passageList });
+        // function that sort items in an array by object keys, based on how `array.sort` works. 
+        function sortBy(key) {
+          return function (prev, next) {
+            var prevValue = prev[key];
+            var nextValue = next[key];
+            if (prevValue < nextValue) {
+              return 1;
+            } else if (prevValue > nextValue) {
+              return -1;
+            } else {
+              return 0;
+            }
+          };
+        }
+        // function that sort an array with particular criterior.
+        var sortedData = data.latestPassages.sort(sortBy("modifiedTime"));
+
+        _this2.setState({
+          latestPassagesInfo: sortedData
+        }, function () {
+          // loading progress would be continous without this.
+          _index2.default.stopPullDownRefresh();
+        });
       });
     }
   }, {
-    key: "loadTitles",
-    value: function loadTitles() {
-      var _this3 = this;
-
-      _index2.default.request({
-        url: 'http://rap2api.taobao.org/app/mock/227923/api/home/bannerInfo'
-      }).then(function (response) {
-        return response.data;
-      }).then(function (data) {
-        _this3.setState({ titleList: data.home });
+    key: "handleChangeView",
+    value: function handleChangeView(value) {
+      this.setState({
+        currentView: value
       });
     }
   }, {
@@ -117,46 +140,52 @@ var Index = (_dec = (0, _index3.connect)(function (_ref) {
       var __isRunloopRef = arguments[2];
       var __prefix = this.$prefix;
       ;
-      var $compid__55 = (0, _index.genCompid)(__prefix + "$compid__55");
-      var $compid__56 = (0, _index.genCompid)(__prefix + "$compid__56");
-      var $compid__57 = (0, _index.genCompid)(__prefix + "$compid__57");
-      var $compid__58 = (0, _index.genCompid)(__prefix + "$compid__58");
-      var $compid__59 = (0, _index.genCompid)(__prefix + "$compid__59");
+      var $compid__101 = (0, _index.genCompid)(__prefix + "$compid__101");
+      var $compid__102 = (0, _index.genCompid)(__prefix + "$compid__102");
+      var $compid__103 = (0, _index.genCompid)(__prefix + "$compid__103");
+      var anonymousState__temp = [{ title: '广场' }, { title: '专栏' }];
+      // console.log(this.state.latestPassagesInfo)
 
-      var _state = this.__state,
-          passageList = _state.passageList,
-          titleList = _state.titleList;
+      var loopArray26 = this.__state.latestPassagesInfo.map(function (passageInfo, _anonIdx) {
+        passageInfo = {
+          $original: (0, _index.internal_get_original)(passageInfo)
+        };
+        var $compid__100 = (0, _index.genCompid)(__prefix + "lWnvOetbXO" + _anonIdx);
+        _index.propsManager.set({
+          "passage": passageInfo.$original
+        }, $compid__100);
+        return {
+          $compid__100: $compid__100,
+          $original: passageInfo.$original
+        };
+      });
 
       _index.propsManager.set({
-        "passage": passageList[0]
-      }, $compid__55);
+        "current": this.__state.currentView,
+        "tabList": anonymousState__temp,
+        "onClick": this.handleChangeView.bind(this)
+      }, $compid__101);
       _index.propsManager.set({
-        "title": titleList[0].title
-      }, $compid__56);
-      passageList.length > 0 && _index.propsManager.set({
-        "passageList": passageList,
-        "type": false
-      }, $compid__57);
+        "current": 0,
+        "index": 0
+      }, $compid__102);
       _index.propsManager.set({
-        "title": titleList[1].title
-      }, $compid__58);
-      passageList.length > 0 && _index.propsManager.set({
-        "passageList": passageList,
-        "type": true
-      }, $compid__59);
+        "current": 1,
+        "index": 1
+      }, $compid__103);
       Object.assign(this.__state, {
-        $compid__55: $compid__55,
-        $compid__56: $compid__56,
-        $compid__57: $compid__57,
-        $compid__58: $compid__58,
-        $compid__59: $compid__59
+        anonymousState__temp: anonymousState__temp,
+        loopArray26: loopArray26,
+        $compid__101: $compid__101,
+        $compid__102: $compid__102,
+        $compid__103: $compid__103
       });
       return this.__state;
     }
   }]);
 
   return Index;
-}(_index.Component), _class2.$$events = [], _class2.$$componentPath = "pages/index/index", _temp2)) || _class);
+}(_index2.default.Component), _class2.$$events = [], _class2.$$componentPath = "pages/index/index", _temp2)) || _class);
 exports.default = Index;
 
 Component(require('../../npm/@tarojs/taro-weapp/index.js').default.createComponent(Index, true));

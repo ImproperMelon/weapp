@@ -1,15 +1,13 @@
-import Taro, { Component } from '@tarojs/taro'
-import { View, Button, Text } from '@tarojs/components'
+import Taro from '@tarojs/taro'
+import { View} from '@tarojs/components'
 import { connect } from '@tarojs/redux'
+import { AtTabs, AtTabsPane } from 'taro-ui'
 
 import { add, minus, asyncAdd } from '../../actions/counter'
 
 import Card from '../../components/index/Card'
-import CardList from '../../components/index/CardList'
-import Banner from '../../components/index/Banner'
 
 import './index.scss'
-
 
 @connect(({ counter }) => ({
   counter
@@ -24,16 +22,17 @@ import './index.scss'
     dispatch(asyncAdd())
   }
 }))
-class Index extends Component {
+
+class Index extends Taro.Component {
   config = {
-    navigationBarTitleText: '首页'
+    navigationBarTitleText: '学习空间'
   }
 
   constructor (props) {
     super (props)
     this.state = {
-      passageList: [],
-      titleList: []
+      currentView: 0,// index that AtTabs and AtTabsPane need to manage to change pane item. 
+      latestPassagesInfo: []// passages list that needs to be presented and contains passages infomation.
     }
   }
 
@@ -42,39 +41,80 @@ class Index extends Component {
   }
 
   componentDidMount () {
-    this.loadPassages ()
-    this.loadTitles()
+    this.fetchTopicPassgaesInfo('latestPassages')// first request to get the latest passages list.
   }
-  
-  loadPassages () {
-    Taro.request ({
-      url: 'http://rap2api.taobao.org/app/mock/227923/api/home/passageList'
+
+  onPullDownRefresh () {
+    this.fetchTopicPassgaesInfo('latestPassages')// refresh passage list when users pulls the window down.
+  }
+
+  fetchTopicPassgaesInfo (passagesType) {// passagesType needed in case that a new kind of criterior standard is needed.
+    // get different kind of passages list when defferent passageType is transfered in.
+    let url = 'http://rap2api.taobao.org/app/mock/228736/api/' + passagesType
+    Taro.request({
+      url: url
     })
-    .then(response => response.data)
+    .then(res => res.data)
     .then(data => {
-      this.setState({passageList: data.passageList})
+      // function that sort items in an array by object keys, based on how `array.sort` works. 
+      function sortBy(key) {
+        return function(prev, next) {
+          let prevValue = prev[key];
+          let nextValue = next[key]
+          if (prevValue < nextValue) {
+            return 1
+          }
+          else if (prevValue > nextValue) {
+            return -1
+          }
+          else {
+            return 0
+          }
+        }
+      }
+      // function that sort an array with particular criterior.
+      const sortedData = data.latestPassages.sort(sortBy("modifiedTime"))
+
+      this.setState(
+        {
+          latestPassagesInfo: sortedData
+        },
+        () => {// loading progress would be continous without this.
+          Taro.stopPullDownRefresh()
+        }
+      )
     })
   }
 
-  loadTitles () {
-    Taro.request({
-      url: 'http://rap2api.taobao.org/app/mock/227923/api/home/bannerInfo'
-    })
-    .then(response => response.data)
-    .then(data => {
-      this.setState({titleList: data.home})
+  handleChangeView (value) {
+    this.setState({
+      currentView: value
     })
   }
+
   render () {
-    const { passageList, titleList } = this.state
+    // console.log(this.state.latestPassagesInfo)
     return (
-      <View>
-        <Card passage = { passageList[0] }/>
-        <Banner title = { titleList[0].title }/>
-        {(passageList.length > 0 ? <CardList passageList = { passageList } type = { false } /> : <Empty />)}
-        <Banner title = { titleList[1].title } />
-        {(passageList.length > 0 ? <CardList passageList = { passageList } type = { true } /> : <Empty />)}
-      </View>
+      <AtTabs
+        current = { this.state.currentView }
+        tabList = {[
+          {title: '广场'},
+          {title: '专栏'}
+        ]}
+        onClick = { this.handleChangeView.bind(this) }
+      >
+        <AtTabsPane current = { 0 } index = { 0 }>
+          <View>
+            {
+              this.state.latestPassagesInfo.map(passageInfo => (
+                <Card passage = {passageInfo} key = { passageInfo.passageId }></Card>
+                )
+              )
+            }
+          </View>
+        </AtTabsPane>
+        <AtTabsPane current = { 1 } index = { 1 }>专栏</AtTabsPane>
+      </AtTabs>
     )
   }
 }

@@ -8,7 +8,7 @@ import configStore from './store'
 
 import './app.scss'
 import "taro-ui/dist/style/index.scss"
-
+import '../src/assets/icon/icon.css'
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
 // if (process.env.NODE_ENV !== 'production' && process.env.TARO_ENV === 'h5')  {
@@ -31,8 +31,9 @@ class App extends Component {
     window: {
       backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: '编程学习空间',
-      navigationBarTextStyle: 'black'
+      navigationBarTitleText: '学习空间',
+      navigationBarTextStyle: 'black',
+      enablePullDownRefresh: true
     },
     tabBar: {
       list: [{

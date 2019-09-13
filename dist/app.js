@@ -64,8 +64,9 @@ var _App = function (_BaseComponent) {
       window: {
         backgroundTextStyle: 'dark',
         navigationBarBackgroundColor: '#fff',
-        navigationBarTitleText: '编程学习空间',
-        navigationBarTextStyle: 'black'
+        navigationBarTitleText: '学习空间',
+        navigationBarTextStyle: 'black',
+        enablePullDownRefresh: true
       },
       tabBar: {
         list: [{

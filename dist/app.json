@@ -10,8 +10,9 @@
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "编程学习空间",
-    "navigationBarTextStyle": "black"
+    "navigationBarTitleText": "学习空间",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": true
   },
   "tabBar": {
     "list": [
@@ -38,6 +39,5 @@
     "selectedColor": "#2d8cf0",
     "backgroundColor": "#ffffff",
     "borderStyle": "white"
-  },
-  "sitemapLocation": "sitemap.json"
+  }
 }

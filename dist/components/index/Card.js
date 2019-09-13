@@ -40,22 +40,19 @@ var Card = (_temp2 = _class = function (_BaseComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Card.__proto__ || Object.getPrototypeOf(Card)).call.apply(_ref, [this].concat(args))), _this), _this.$usedState = ["anonymousState__temp", "passage", "type"], _this.customComponents = [], _temp), _possibleConstructorReturn(_this, _ret);
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Card.__proto__ || Object.getPrototypeOf(Card)).call.apply(_ref, [this].concat(args))), _this), _this.$usedState = ["passage"], _this.customComponents = [], _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(Card, [{
     key: "_constructor",
     value: function _constructor(props) {
       _get(Card.prototype.__proto__ || Object.getPrototypeOf(Card.prototype), "_constructor", this).call(this, props);
-
       this.$$refs = [];
     }
   }, {
-    key: "handleCardClicked",
-    value: function handleCardClicked(passage) {
-      _index2.default.navigateTo({
-        url: 'pages/article?id=' + passage.id
-      });
+    key: "cardClicked",
+    value: function cardClicked(passageId) {
+      console.log(this.props.passage.passageId);
     }
   }, {
     key: "_createData",
@@ -65,31 +62,18 @@ var Card = (_temp2 = _class = function (_BaseComponent) {
       var __isRunloopRef = arguments[2];
       var __prefix = this.$prefix;
       ;
-
-      var _props = this.__props,
-          passage = _props.passage,
-          type = _props.type;
-
-      var anonymousState__temp = !type ? passage.tags.join('/') : null;
-      Object.assign(this.__state, {
-        anonymousState__temp: anonymousState__temp,
-        passage: passage,
-        type: type
-      });
+      Object.assign(this.__state, {});
       return this.__state;
     }
   }]);
 
   return Card;
-}(_index.Component), _class.$$events = ["handleCardClicked"], _class.propTypes = {
-  passage: _index4.default.object,
-  //decide whether it has detailed info
-  type: _index4.default.bool
+}(_index.Component), _class.$$events = ["cardClicked"], _class.propTypes = {
+  passage: _index4.default.object
 }, _class.defaultProps = {
   passage: {
-    tags: []
-  },
-  type: false
+    cover: 'https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture'
+  }
 }, _class.$$componentPath = "components/index/Card", _temp2);
 exports.default = Card;
 

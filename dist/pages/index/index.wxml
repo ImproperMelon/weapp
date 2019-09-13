@@ -1,23 +1,10 @@
 <block wx:if="{{$taroCompReady}}">
-    <view>
-        <card compid="{{$compid__55}}"></card>
-        <banner compid="{{$compid__56}}"></banner>
-        <block>
-            <block wx:if="{{passageList.length > 0}}">
-                <card-list compid="{{$compid__57}}"></card-list>
-            </block>
-            <block wx:else>
-                <empty></empty>
-            </block>
-        </block>
-        <banner compid="{{$compid__58}}"></banner>
-        <block>
-            <block wx:if="{{passageList.length > 0}}">
-                <card-list compid="{{$compid__59}}"></card-list>
-            </block>
-            <block wx:else>
-                <empty></empty>
-            </block>
-        </block>
-    </view>
+    <at-tabs compid="{{$compid__101}}">
+        <at-tabs-pane compid="{{$compid__102}}">
+            <view>
+                <card wx:key="$original.passageId" wx:for="{{loopArray26}}" wx:for-item="passageInfo" wx:for-index="_anonIdx2" compid="{{passageInfo.$compid__100}}"></card>
+            </view>
+        </at-tabs-pane>
+        <at-tabs-pane compid="{{$compid__103}}">专栏</at-tabs-pane>
+    </at-tabs>
 </block>

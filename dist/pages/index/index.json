@@ -1,8 +1,8 @@
 {
   "usingComponents": {
-    "card": "../../components/index/Card",
-    "banner": "../../components/index/Banner",
-    "card-list": "../../components/index/CardList"
+    "at-tabs": "../../npm/taro-ui/dist/weapp/components/tabs/index",
+    "at-tabs-pane": "../../npm/taro-ui/dist/weapp/components/tabs-pane/index",
+    "card": "../../components/index/Card"
   },
-  "navigationBarTitleText": "首页"
+  "navigationBarTitleText": "学习空间"
 }
